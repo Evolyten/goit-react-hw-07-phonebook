@@ -32,53 +32,53 @@ import { fetchContact, addContact, deleteContact } from './contactsOperation';
 //   error,
 // });
 
-export const contactsSlice = createSlice({
-  name: 'contacts',
-  initialState: { item: [], isLoading: false, error: null },
-  extraReducers: {
-    [fetchContact.pending]: (state, { payload }) => {
-      state.isLoading = true;
-      state.error = null;
-    },
-    [fetchContact.fulfilled]: (state, { payload }) => {
-      state.item = payload;
-      state.isLoading = false;
-    },
+// export const contactsSlice = createSlice({
+//   name: 'contacts',
+//   initialState: { item: [], isLoading: false, error: null },
+//   extraReducers: {
+//     [fetchContact.pending]: (state, { payload }) => {
+//       state.isLoading = true;
+//       state.error = null;
+//     },
+//     [fetchContact.fulfilled]: (state, { payload }) => {
+//       state.item = payload;
+//       state.isLoading = false;
+//     },
 
-    [fetchContact.rejected]: (state, { payload }) => {
-      state.isLoading = false;
-      state.error = payload;
-    },
+//     [fetchContact.rejected]: (state, { payload }) => {
+//       state.isLoading = false;
+//       state.error = payload;
+//     },
 
-    [addContact.pending]: (state, { payload }) => {
-      state.isLoading = true;
-      state.error = null;
-    },
-    [addContact.fulfilled]: (state, { payload }) => {
-      state.item = [payload, ...state.item];
-      state.isLoading = false;
-    },
+//     [addContact.pending]: (state, { payload }) => {
+//       state.isLoading = true;
+//       state.error = null;
+//     },
+//     [addContact.fulfilled]: (state, { payload }) => {
+//       state.item = [payload, ...state.item];
+//       state.isLoading = false;
+//     },
 
-    [addContact.rejected]: (state, { payload }) => {
-      state.isLoading = false;
-      state.error = payload;
-    },
-    [deleteContact.pending]: (state, { payload }) => {
-      state.isLoading = true;
-      state.error = null;
-    },
+//     [addContact.rejected]: (state, { payload }) => {
+//       state.isLoading = false;
+//       state.error = payload;
+//     },
+//     [deleteContact.pending]: (state, { payload }) => {
+//       state.isLoading = true;
+//       state.error = null;
+//     },
 
-    [deleteContact.fulfilled]: (state, { payload }) => {
-      state.item = state.item.filter(n => n.id !== payload.id);
-      state.isLoading = false;
-    },
+//     [deleteContact.fulfilled]: (state, { payload }) => {
+//       state.item = state.item.filter(n => n.id !== payload.id);
+//       state.isLoading = false;
+//     },
 
-    [deleteContact.rejected]: (state, { payload }) => {
-      state.isLoading = false;
-      state.error = payload;
-    },
-  },
-});
+//     [deleteContact.rejected]: (state, { payload }) => {
+//       state.isLoading = false;
+//       state.error = payload;
+//     },
+//   },
+// });
 
 export const filterContacts = createAction('contacts/filterContacts');
 
@@ -86,47 +86,47 @@ export const filterReducer = createReducer('', {
   [filterContacts]: (state, action) => action.payload,
 });
 
-// export const contactsSlice = createSlice({
-//   name: 'contacts',
-//   initialState: { item: [], isLoading: false, error: null },
-//   extraReducers: builder => {
-//     builder.getContacts(fetchContact.fulfilled, (state, { payload }) => {
-//       state.item = payload;
-//       state.isLoading = false;
-//     });
-//     builder.getContacts(fetchContact.pending, (state, { payload }) => {
-//       state.isLoading = true;
-//       state.error = null;
-//     });
-//     builder.getContacts(fetchContact.rejected, (state, { payload }) => {
-//       state.isLoading = false;
-//       state.error = payload;
-//     });
+export const contactsSlice = createSlice({
+  name: 'contacts',
+  initialState: { item: [], isLoading: false, error: null },
+  extraReducers: builder => {
+    builder.addCase(fetchContact.fulfilled, (state, { payload }) => {
+      state.item = payload;
+      state.isLoading = false;
+    });
+    builder.addCase(fetchContact.pending, (state, { payload }) => {
+      state.isLoading = true;
+      state.error = null;
+    });
+    builder.addCase(fetchContact.rejected, (state, { payload }) => {
+      state.isLoading = false;
+      state.error = payload;
+    });
 
-//     builder.addContact(addContact.fulfilled, (state, { payload }) => {
-//       state.item = [payload, ...state.item];
-//       state.isLoading = false;
-//     });
-//     builder.addContact(addContact.pending, (state, { payload }) => {
-//       state.isLoading = true;
-//       state.error = null;
-//     });
-//     builder.addContact(addContact.rejected, (state, { payload }) => {
-//       state.isLoading = false;
-//       state.error = payload;
-//     });
+    builder.addCase(addContact.fulfilled, (state, { payload }) => {
+      state.item = [payload, ...state.item];
+      state.isLoading = false;
+    });
+    builder.addCase(addContact.pending, (state, { payload }) => {
+      state.isLoading = true;
+      state.error = null;
+    });
+    builder.addCase(addContact.rejected, (state, { payload }) => {
+      state.isLoading = false;
+      state.error = payload;
+    });
 
-//     builder.deleteContact(deleteContact.fulfilled, (state, { payload }) => {
-//       state.item = state.item.filter(n => n.id !== payload.id);
-//       state.isLoading = false;
-//     });
-//     builder.deleteContact(deleteContact.pending, (state, { payload }) => {
-//       state.isLoading = true;
-//       state.error = null;
-//     });
-//     builder.deleteContact(deleteContact.rejected, (state, { payload }) => {
-//       state.isLoading = false;
-//       state.error = payload;
-//     });
-//   },
-// });
+    builder.addCase(deleteContact.fulfilled, (state, { payload }) => {
+      state.item = state.item.filter(n => n.id !== payload.id);
+      state.isLoading = false;
+    });
+    builder.addCase(deleteContact.pending, (state, { payload }) => {
+      state.isLoading = true;
+      state.error = null;
+    });
+    builder.addCase(deleteContact.rejected, (state, { payload }) => {
+      state.isLoading = false;
+      state.error = payload;
+    });
+  },
+});
