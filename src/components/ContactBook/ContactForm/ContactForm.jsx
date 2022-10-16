@@ -5,6 +5,7 @@ import css from './ContactForm.module.css';
 import { addContact } from 'redux/contactsOperation';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
+import { getContacts } from 'redux/contactsSelectors';
 
 const initialValues = {
   name: '',
@@ -32,7 +33,7 @@ const validationSchema = Yup.object().shape({
 
 export const ContactForm = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(state => state.contacts.item);
+  const contacts = useSelector(getContacts);
 
   const handleSubmit = (user, { resetForm }) => {
     if (contacts.some(contact => contact.name === user.name)) {

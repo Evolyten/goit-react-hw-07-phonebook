@@ -2,11 +2,9 @@ import css from '../ContactList/ContactList.module.css';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { deleteContact } from 'redux/contactsOperation';
-// import { removeContacts } from 'redux/slices/slice';
 
 export function ContactListItem({ user }) {
   const dispatch = useDispatch();
-
   const { id, name, phone } = user;
   return (
     <li className={css.user_item}>

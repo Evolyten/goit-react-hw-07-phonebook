@@ -11,10 +11,10 @@ import { fetchContact } from 'redux/contactsOperation';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import Loader from './ContactBook/Loader/Loader';
-
+import { getContacts, getIsLoading } from '../redux/contactsSelectors';
 export default function App() {
-  const contacts = useSelector(state => state.contacts.item);
-  const isLoading = useSelector(state => state.contacts.isLoading);
+  const contacts = useSelector(getContacts);
+  const isLoading = useSelector(getIsLoading);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -27,7 +27,8 @@ export default function App() {
       </Section>
       <Section title="Contacts">
         <Filter />
-        {isLoading ? <Loader /> : !!contacts.length && <UserList />}
+        {!!contacts.length && <UserList />}
+        {isLoading && <Loader />}
       </Section>
       <Toaster position="top-right" reverseOrder={true} />
     </div>
