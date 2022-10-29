@@ -5,8 +5,11 @@ import css from './ContactForm.module.css';
 import { addContact } from 'redux/contactsOperation';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
-import { getContacts } from 'redux/contactsSelectors';
-
+// import { getContacts } from 'redux/contactsSelectors';
+import {
+  useAddContactsMutation,
+  useGetContactsQuery,
+} from 'redux/contatsReducer';
 const initialValues = {
   name: '',
   phone: '',
@@ -32,17 +35,23 @@ const validationSchema = Yup.object().shape({
 });
 
 export const ContactForm = () => {
-  const dispatch = useDispatch();
-  const contacts = useSelector(getContacts);
+  // const dispatch = useDispatch();
+  // const contacts = useSelector(getContacts);
+  const [addContacts, result] = useAddContactsMutation();
+  const { data, error, isLoading } = useGetContactsQuery();
 
-  const handleSubmit = (user, { resetForm }) => {
-    if (contacts.some(contact => contact.name === user.name)) {
+  const handleSubmit = async (user, { resetForm }) => {
+    if (data.some(contact => contact.name === user.name)) {
       toast.error(`${user.name} is already in contacts`);
       resetForm();
       return;
     }
-    dispatch(addContact(user));
-    resetForm();
+    try {
+      await addContacts(user);
+      resetForm();
+    } catch (error) {
+      resetForm();
+    }
   };
 
   return (
