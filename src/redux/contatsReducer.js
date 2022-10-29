@@ -2,9 +2,9 @@ import {
   createReducer,
   // combineReducers,
   createAction,
-  createSlice,
+  // createSlice,
 } from '@reduxjs/toolkit';
-import { fetchContact, addContact, deleteContact } from './contactsOperation';
+// import { fetchContact, addContact, deleteContact } from './contactsOperation';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 // const item = createReducer([], {

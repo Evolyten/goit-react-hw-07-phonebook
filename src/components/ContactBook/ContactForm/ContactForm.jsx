@@ -2,8 +2,8 @@ import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import toast from 'react-hot-toast';
 import css from './ContactForm.module.css';
-import { addContact } from 'redux/contactsOperation';
-import { useDispatch, useSelector } from 'react-redux';
+// import { addContact } from 'redux/contactsOperation';
+// import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
 // import { getContacts } from 'redux/contactsSelectors';
 import {
@@ -37,8 +37,8 @@ const validationSchema = Yup.object().shape({
 export const ContactForm = () => {
   // const dispatch = useDispatch();
   // const contacts = useSelector(getContacts);
-  const [addContacts, result] = useAddContactsMutation();
-  const { data, error, isLoading } = useGetContactsQuery();
+  const [addContacts] = useAddContactsMutation();
+  const { data } = useGetContactsQuery();
 
   const handleSubmit = async (user, { resetForm }) => {
     if (data.some(contact => contact.name === user.name)) {
@@ -48,6 +48,7 @@ export const ContactForm = () => {
     }
     try {
       await addContacts(user);
+      toast.success(`${user.name} is successfully added`);
       resetForm();
     } catch (error) {
       resetForm();
